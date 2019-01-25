@@ -1,33 +1,37 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, Button} from 'react-native';
-import { observable } from 'mobx';
+import { observable, decorate } from 'mobx';
 import { observer } from 'mobx-react';
 
-export default class FirstComponent extends Component{
-    state = {
-        count: 3
-    }
+class FirstComponent extends Component{
+    count = 2;
     render(){
         return(
             <View style={styles.container}>
                 <Text style={styles.welcome}>First Mob-x</Text>
                 <View style={styles.instructions}>
-                <Text>Count: {this.state.count}</Text>
+                <Text>Count: {this.count}</Text>
                 <Button 
                     title="+ Increase"
                     onPress={()=>{
-                    this.setState({ count: this.state.count + 1 });
+                    this.count++;
                     }}/>
                 <Button 
                     title="- Decrease"
                     onPress={()=>{
-                    this.setState({ count: this.state.count - 1 });
+                    this.count--;
                     }}/>
                 </View>
             </View>
         )
     }   
 }
+
+export default observer(
+    decorate(FirstComponent,{
+        count: observable   
+    })
+);
 
 const styles = StyleSheet.create({
     container: {
